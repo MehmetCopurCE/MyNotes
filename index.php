@@ -29,6 +29,20 @@ $books = [
         'purchaseUrl' => 'https://example.com'
     ]
 ];
+
+function filterByAuthor($books, $author)
+{
+    $filteredBooks = [];
+
+    foreach ($books as $book) {
+        if ($book['author'] === $author) {
+            $filteredBooks[] = $book;
+        }
+    }
+
+    return $filteredBooks;
+}
+
 ?>
 
 <h1>Recommended Books</h1>
@@ -41,21 +55,21 @@ $books = [
     ?>
 </ul>
 
+
 <h1>Recommended Books Type 2</h1>
 
 <ul>
-    <?php foreach ($books as $book) : ?>
-        <li>
-            <strong>Title: </strong> <?= $book['title']; ?> <br>
-            <strong>Author: </strong> <?php echo $book['author']; ?> <br>
-            <strong>Price: </strong> <?php echo $book['price']; ?> <br>
-            <strong>Purchase: </strong> <a href="<?php echo $book['purchaseUrl']; ?>">Link</a>
-        </li>
-        <br>
+    <?php foreach (filterByAuthor($books, 'Mark Twain') as $book) : ?>
+            <li>
+                <strong>Title: </strong> <?= $book['title']; ?> <br>
+                <strong>Author: </strong> <?php echo $book['author']; ?> <br>
+                <strong>Price: </strong> <?php echo $book['price']; ?> <br>
+                <strong>Purchase: </strong> <a href="<?php echo $book['purchaseUrl']; ?>">Link</a>
+            </li>
+            <br>
     <?php endforeach; ?>
 </ul>
-</body>
 
-</html>
+</body>
 
 </html>
