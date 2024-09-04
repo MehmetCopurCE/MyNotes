@@ -14,34 +14,41 @@ $books = [
         'title' => 'The Adventures of Tom Sawyer',
         'author' => 'Mark Twain',
         'price' => 200,
+        'releaseYear' => 2006,
         'purchaseUrl' => 'https://example.com'
     ],
     [
         'title' => 'The Adventures of Sherlock Holmes',
         'author' => 'Arthur Conan Doyle',
         'price' => 250,
+        'releaseYear' => 2011,
         'purchaseUrl' => 'https://example.com'
     ],
     [
         'title' => 'The Adventures of Huckleberry Finn',
         'author' => 'Mark Twain',
         'price' => 300,
+        'releaseYear' => 2012,
         'purchaseUrl' => 'https://example.com'
     ]
 ];
 
-function filterByAuthor($books, $author)
+function filter($items, $func)
 {
-    $filteredBooks = [];
+    $filteredItems = [];
 
-    foreach ($books as $book) {
-        if ($book['author'] === $author) {
-            $filteredBooks[] = $book;
+    foreach ($items as $item) {
+        if ($func($item)) {
+            $filteredItems[] = $item;
         }
     }
 
-    return $filteredBooks;
+    return $filteredItems;
 }
+
+$filteredBooks = filter($books, function ($book) {
+    return $book['releaseYear'] >= 2012;
+});
 
 ?>
 
@@ -59,14 +66,12 @@ function filterByAuthor($books, $author)
 <h1>Recommended Books Type 2</h1>
 
 <ul>
-    <?php foreach (filterByAuthor($books, 'Mark Twain') as $book) : ?>
-            <li>
-                <strong>Title: </strong> <?= $book['title']; ?> <br>
-                <strong>Author: </strong> <?php echo $book['author']; ?> <br>
-                <strong>Price: </strong> <?php echo $book['price']; ?> <br>
-                <strong>Purchase: </strong> <a href="<?php echo $book['purchaseUrl']; ?>">Link</a>
-            </li>
-            <br>
+    <?php foreach ($filteredBooks as $book) : ?>
+
+        <a href="<?php echo $book['purchaseUrl']; ?>">
+            <?= $book["title"] ?> (<?= $book["releaseYear"] ?>) by <?= $book["author"] ?>
+        </a>
+        <br>
     <?php endforeach; ?>
 </ul>
 
