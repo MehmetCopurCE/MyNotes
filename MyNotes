@@ -1,0 +1,48 @@
+----------- Functions and Filters -----------
+
+
+// Normal Function
+function filterByAuthor($books, $author)
+{
+    $filteredBooks = [];
+
+    foreach ($books as $book) {
+        if ($book['author'] === $author) {
+            $filteredBooks[] = $book;
+        }
+    }
+
+    return $filteredBooks;
+}
+
+// Anonymous function
+$filteredBooks2 = function ($books, $author) {
+    $filteredBooks = [];
+
+    foreach ($books as $book) {
+        if ($book['author'] === $author) { //this is function
+            $filteredBooks[] = $book;
+        }
+    }
+    return $filteredBooks;
+};
+
+
+function filter($items, $func) //we can pass function as parameter
+{
+    $filteredItems = [];
+
+    foreach ($items as $item) {
+        if ($func($item)) {
+            $filteredItems[] = $item;
+        }
+    }
+
+    return $filteredItems;
+}
+
+$filteredBooks = filterByAuthor($books, 'Mark Twain');
+$filteredBooks = $filteredBooks2($books, 'Mark Twain');
+$filteredBooks = filter($books, function ($book) {
+    return $book['releaseYear'] >= 2012;
+});
