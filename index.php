@@ -1,4 +1,6 @@
 <?php
 
-require 'index.view.php';
+$header = "Dashboard";
+
+require 'views/index.view.php';
 
