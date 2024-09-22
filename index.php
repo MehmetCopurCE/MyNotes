@@ -1,14 +1,18 @@
 <?php
 
-$header = "Dashboard";
+require "functions.php";
 
-function dd($data) {
-    echo '<pre>';
-    die(var_dump($data));
-    echo '</pre>';
+//require "router.php";
 
-    die();
+// MySql Connection
+$dsn = "mysql:host=localhost;dbname=PhpDemo"; // database source name
+$pdo = new PDO($dsn, "root", "MCopur123"); //php data objects
+
+$statement = $pdo->prepare("select * from posts");
+$statement->execute();
+
+$posts = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($posts as $post) {
+    echo "<li>" . $post['title'] . "</li>";
 }
-
-require 'views/index.view.php';
-
