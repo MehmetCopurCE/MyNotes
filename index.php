@@ -1,14 +1,12 @@
 <?php
 
-$header = "Dashboard";
+require "functions.php";
+require "Database.php";
 
-function dd($data) {
-    echo '<pre>';
-    die(var_dump($data));
-    echo '</pre>';
+//require "router.php";
 
-    die();
-}
+$db = new Database();
 
-require 'views/index.view.php';
+$posts = $db->query("SELECT * FROM posts")->fetchAll(PDO::FETCH_ASSOC);
 
+dd($posts);
