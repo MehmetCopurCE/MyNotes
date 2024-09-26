@@ -3,7 +3,7 @@
 class Database
 {
     public $dbConnection;
-
+    public $statement;
     public function __construct($config) //Function that runs when the class is instantiated
     {
 
@@ -15,10 +15,26 @@ class Database
         ]); //php data objects
     }
 
-    public function query($query){
-        $statement = $this->dbConnection->prepare($query);
-        $statement->execute();
-        return $statement;
+    public function query($query, $params = []){
+        $this->statement = $this->dbConnection->prepare($query);
+        $this->statement->execute($params);
+        return $this;
+    }
+
+    public function findOrAbort(){
+        $result = $this->statement->fetch();
+        if(! $result){
+            abort(404);
+        }
+        return $result;
+    }
+
+    public function fetch(){
+        return $this->statement->fetch();
+    }
+
+    public function fetchAll(){
+        return $this->statement->fetchAll();
     }
 
 }
