@@ -1,5 +1,5 @@
 <?php
 
-$header = "Dashboard";
-
-require 'views/index.view.php';
+view('/index.view.php', [
+    'header' => "Dashboard"
+]);
