@@ -1,6 +1,6 @@
 <?php require base_path("views/partials/head.php") ?>
 
-<?php require base_path("views/partials/nav.php")?>
+<?php require base_path("views/partials/nav.php") ?>
 
 <?php require base_path("views/partials/banner.php") ?>
 
@@ -8,13 +8,17 @@
         <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
 
             <p><?= $note['body'] ?></p>
+
+            <form method="post" name="id">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="hidden" name="id" value="<?= $note['id'] ?>">
+                <button type="submit" class="mt-6 bg-red-500 text-white px-4 py-2 rounded">Delete</button>
+            </form>
+
             <p class="mt-6">
                 <a href="/notes" class="text-blue-500 underline">go back notes</a>
             </p>
 
-            <form  method="post" name="id">
-                <input type="hidden" name="id" value="<?= $note['id'] ?>">
-                <button type="submit" class="mt-6 bg-red-500 text-white px-4 py-2 rounded">Delete</button>
         </div>
     </main>
 
