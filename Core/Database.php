@@ -27,7 +27,7 @@ class Database
     public function findOrAbort(){
         $result = $this->statement->fetch();
         if(! $result){
-            abort(404);
+            $this->abort(404);
         }
         return $result;
     }
@@ -38,6 +38,13 @@ class Database
 
     public function fetchAll(){
         return $this->statement->fetchAll();
+    }
+
+    protected function abort($code = 404)
+    {
+        http_response_code($code);
+        require base_path("views/{$code}.php");
+        die();
     }
 
 }

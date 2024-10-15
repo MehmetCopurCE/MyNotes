@@ -21,7 +21,10 @@ $router->get('/notes/create', 'controllers/notes/create.php');
 $router->post('/notes/create', 'controllers/notes/create.php');
 
 $router->get('/note', 'controllers/notes/show.php');
-$router->delete('/note', 'controllers/notes/delete.php');
+$router->patch('/note', 'controllers/notes/update.php');
+$router->get('/note/edit', 'controllers/notes/edit.php');
+
+$router->delete('/note/delete', 'controllers/notes/delete.php');
 
 $router->get('/contact', 'controllers/contact.php');
 
