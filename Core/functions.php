@@ -26,5 +26,11 @@ function base_path($path) {
 
 function view($view, $attributes = []) {
     extract($attributes); // ['header' => 'Dashboard'] => $header = 'Dashboard'
-    require base_path("/views" . $view);
+    return require base_path("/views" . $view);
 }
+
+function redirect($url) {
+    header("Location: {$url}");
+    exit();
+}
+
