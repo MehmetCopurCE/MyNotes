@@ -12,12 +12,12 @@ $user = $db->query('SELECT * FROM users WHERE email = :email', [
 
 
 if ($user && password_verify($password, $user['password'])){
-    $_SESSION['user'] = $user;
+    login($user);
     header('Location: /');
     exit();
 }else{
     $errors['email'] = 'Email or password is incorrect.';
-    view('/registration/login.view.php', [
+    view('/registration/create.view.php', [
         'errors' => $errors
     ]);
     return;

@@ -3,14 +3,16 @@
         <div class="flex h-16 items-center justify-between">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
-                    <img class="h-8 w-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
+                    <img class="h-8 w-8" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
                         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                         <a href="/" class=" <?= urlIs('/') ? 'bg-gray-900 text-white' : 'text-gray-300' ?> rounded-md px-3 py-2 text-sm font-medium  hover:bg-gray-700 hover:text-white">Home</a>
                         <a href="/about" class="<?= urlIs('/about') ? 'bg-gray-900 text-white' : 'text-gray-300' ?> rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-700 hover:text-white">About</a>
+                        <?php if (isset($_SESSION['user'])) : ?>
                         <a href="/notes" class="<?= urlIs('/notes') ? 'bg-gray-900 text-white' : 'text-gray-300' ?> rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-700 hover:text-white">Notes</a>
+                        <?php endif; ?>
                         <a href="/contact" class="<?= urlIs('/contact') ? 'bg-gray-900 text-white' : 'text-gray-300' ?> rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-700 hover:text-white">Contact</a>
                     </div>
                 </div>
@@ -34,7 +36,8 @@
                         <div id="profileMenu" class="hidden absolute right-22 z-10 mt-40 w-30 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                             <a href="/profile" class="block px-4 py-2 text-sm text-gray-700">Your Profile</a>
                             <a href="/settings" class="block px-4 py-2 text-sm text-gray-700">Settings</a>
-                            <form id="logoutForm" action="/logout" method="POST" class="inline">
+                            <form action="/logout" method="POST" class="inline">
+                                <input type="hidden" name="_method" value="DELETE">
                                 <button type="submit" class="block px-4 py-2 text-sm text-gray-700">Sign out</button>
                             </form>
                         </div>
