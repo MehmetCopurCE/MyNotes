@@ -26,23 +26,11 @@ function base_path($path) {
 
 function view($view, $attributes = []) {
     extract($attributes); // ['header' => 'Dashboard'] => $header = 'Dashboard'
-    require base_path("/views" . $view);
+    return require base_path("/views" . $view);
 }
 
-function login($user) {
-    $_SESSION['user'] = [
-        'id' => $user['id'],
-        'email' => $user['email']
-    ];
-
-    session_regenerate_id(true);
+function redirect($url) {
+    header("Location: {$url}");
+    exit();
 }
 
-function logout() {
-    $_SESSION = [];
-
-    session_destroy();
-
-    $params = session_get_cookie_params();
-    setcookie('PHPSESSID', '', time() - 3600, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
-}
