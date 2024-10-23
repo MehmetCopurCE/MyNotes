@@ -5,6 +5,7 @@ use Core\ValidationException;
 
 const BASE_PATH = __DIR__ . '/../';
 require BASE_PATH . "Core/functions.php";
+require BASE_PATH . "vendor/autoload.php";
 
 session_start();
 
@@ -16,10 +17,10 @@ session_start();
  Return: require base_path("Core{$class}.php")
 */
 
-spl_autoload_register(function ($class) {
-    $class = str_replace('\\', '/', $class);
-    require base_path("/{$class}.php");
-});
+//spl_autoload_register(function ($class) {
+//    $class = str_replace('\\', '/', $class);
+//    require base_path("/{$class}.php");
+//});
 
 require base_path("bootstrap.php");
 

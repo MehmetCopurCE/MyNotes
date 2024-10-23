@@ -1,0 +1,17 @@
+{
+    "name": "envest/demo",
+    "authors": [
+        {
+            "name": "Mehmet Copur",
+            "email": "111346774+MehmetCopurCE@users.noreply.github.com"
+        }
+    ],
+    "require": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Core\\": "Core/",
+            "Http\\": "Http/"
+        }
+    }
+}
