@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @throws Exception
+ */
 test('Container Test', function (){
     $container = new \Core\Container();
 
