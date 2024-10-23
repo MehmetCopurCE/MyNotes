@@ -34,3 +34,7 @@ function redirect($url) {
     exit();
 }
 
+function old($key, $default = '') {
+    return \Core\Session::get('old')[$key] ?? $default;
+}
+

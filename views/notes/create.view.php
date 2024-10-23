@@ -16,7 +16,7 @@
                                 <div class="mt-2">
                                     <textarea id="body" name="body" rows="3"
                                               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                              placeholder="<?= isset($_POST['body']) ? $_POST['body'] : 'Create a note' ?>"></textarea>
+                                              placeholder="<?= $_POST['body'] ?? 'Create a note' ?>"></textarea>
 
                                     <?php if (isset($errors['body'])) : ?>
                                         <p style="color: red; font-size: 0.875rem;"><?= $errors['body'] ?></p>
