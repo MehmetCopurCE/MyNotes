@@ -4,27 +4,32 @@
 
 <?php require base_path("views/partials/banner.php") ?>
 
-    <main>
-        <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+<main>
+    <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
 
-            <p><?= htmlspecialchars($note['body']) ?></p>
+        <p><?= htmlspecialchars($note['body']) ?></p>
 
+        <div class="flex gap-x-2">
 
-         <!--   <form method="post">
+            <!-- Delete Form -->
+            <form method="post" action="/note/delete">
                 <input type="hidden" name="_method" value="DELETE">
-                <input type="hidden" name="id" value="<?php /*= $note['id'] */?>">
+                <input type="hidden" name="id" value="<?= $note['id'] ?>">
                 <button type="submit" class="mt-6 bg-red-500 text-white px-2 py-1 rounded">Delete</button>
-            </form>-->
+            </form>
 
-            <p class="mt-6">
-                <a href="/notes" class="text-blue-500 underline">go back notes</a>
-            </p>
-
-            <footer class="mt-6">
-                <a href="/note/edit?id=<?= $note['id'] ?>" class="text-gray-500 border border-current px-2 py-1 rounded">Edit</a>
-            </footer>
-
+            <!-- Edit Form -->
+            <form method="get" action="/note/edit">
+                <input type="hidden" name="id" value="<?= $note['id'] ?>">
+                <button type="submit" class="mt-6 text-gray-500 border border-current px-2 py-1 rounded">Edit</button>
+            </form>
         </div>
-    </main>
+
+        <p class="mt-6">
+            <a href="/notes" class="text-blue-500 underline">go back notes</a>
+        </p>
+
+    </div>
+</main>
 
 <?php require base_path("views/partials/footer.php") ?>
