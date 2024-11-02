@@ -3,12 +3,6 @@
 
 **MyNotes**, PHP ile geliştirilmiş, basit ve işlevsel bir not alma uygulamasıdır. Bu proje, PHP arka uç geliştirme sürecini öğrenmek ve REST API kullanımı deneyimini kazanmak amacıyla oluşturulmuştur. Kullanıcılar bu uygulama sayesinde not ekleme, düzenleme, silme ve listeleme işlemlerini kolayca gerçekleştirebilirler. Composer paket yönetim sistemi ve testler için Pest framework’ü kullanılarak modern bir PHP geliştirme yaklaşımı benimsenmiştir.
 
-## Özellikler
-
-- Kullanıcı Kayıt Olma ve Giriş Yapma: Kullanıcılar hesap oluşturabilir ve giriş yapabilir.
-- Not Yönetimi: Not ekleme, düzenleme, silme ve listeleme işlemleri REST API ile yapılır.
-- Basit ve Fonksiyonel Arayüz: Kullanıcı dostu arayüz ile basit bir kullanım sunar.
-- MySQL Veritabanı: Notlar MySQL veritabanında saklanır.
 
 ## Kullanılan Teknolojiler ve Araçlar
 
@@ -50,16 +44,83 @@ MyNotes
 └── routes.php
 ```
 
+## Router Yapısı
+Bu proje, HTTP isteklerini uygun kontrolörlere yönlendirmek için bir `Router` sınıfı kullanmaktadır. Bu sınıf, rotaların tanımlanması ve işlenmesi için gerekli metodları içermektedir.
+
+### **Router.php**
+`Router.php` dosyası, yönlendirme işlevselliğini sağlayan sınıfı içermektedir. İşte temel işlevleri:
+- **Yönlendirme Tanımlama:** `add`, `get`, `post`, `put`, `patch`, `delete` metodları ile rotaları tanımlayabilirsiniz.
+- **Middleware Yönetimi:** Rotaya belirli bir middleware eklemek için `only` metodunu kullanabilirsiniz.
+- **İstek Yönlendirme:** `route` metodu, belirli bir URI ve HTTP yöntemine göre kontrolörü çağırır.
+- **Hata Yönetimi:** Tanımlı olmayan rotalar için `abort` metodu ile 404 hata sayfası gösterilir.
+
+```php
+<?php
+
+namespace Core;
+
+use Core\Middleware\Middleware;
+
+class Router {
+    // ...
+}
+```
+
+### **Rotalar**
+Rotalar, `routes.php` dosyasında tanımlanır ve her bir rota, hangi HTTP metoduyla hangi kontrolörün çağrılacağını belirler. Aşağıda tanımlı bazı rotalar bulunmaktadır:
+
+```php
+$router->get('/', 'index.php');                          // Anasayfa
+$router->get('/about', 'about.php');                     // Hakkında sayfası
+$router->get('/notes', 'notes/index.php')->only('auth'); // Notlar sayfası
+$router->get('/notes/create', 'notes/create.php')->only('auth'); // Not oluşturma sayfası
+$router->post('/notes/create', 'notes/create.php')->only('auth'); // Yeni not ekler
+$router->get('/note', 'notes/show.php')->only('auth');   // Belirli bir notu gösterir
+$router->patch('/note', 'notes/update.php')->only('auth'); // Belirli bir notu günceller
+$router->delete('/note/delete', 'notes/delete.php')->only('auth'); // Belirli bir notu siler
+$router->get('/contact', 'contact.php');                  // İletişim sayfası
+$router->get('/login', 'session/create.php')->only('guest'); // Giriş sayfası
+$router->post('/login', 'session/store.php')->only('guest'); // Giriş işlemi
+$router->delete('/logout', 'session/destroy.php')->only('auth'); // Çıkış işlemi
+```
+
+### Açıklamalar:
+- Middleware Kullanımı: `only` metodu, belirli rotaların sadece belirli kullanıcı rolleri (örneğin, `auth` veya `guest`) tarafından erişilmesini sağlar.
+- HTTP Metodları: Farklı HTTP metodları (`GET`, `POST`, `PUT`, `DELETE`, `PATCH`) ile CRUD (Create, Read, Update, Delete) işlemleri yapılır.
+
+Örnek Kullanım
+Kullanıcılar, `/notes` rotasına erişmek istediklerinde, `auth` middleware'i tarafından doğrulama yapılacaktır. Eğer kullanıcı oturum açmışsa, notlar listelenecektir. Aksi halde, kullanıcıya uygun bir hata mesajı gösterilecektir.
+
+## Ek Özellikler
+
+- Kullanıcı Kayıt Olma ve Giriş Yapma: Kullanıcılar hesap oluşturabilir ve giriş yapabilir.
+- Not Yönetimi: Not ekleme, düzenleme, silme ve listeleme işlemleri REST API ile yapılır.
+- Basit ve Fonksiyonel Arayüz: Kullanıcı dostu arayüz ile basit bir kullanım sunar.
+- MySQL Veritabanı: Notlar MySQL veritabanında saklanır.
+- Güvenlik: Kullanıcı şifreleri hashlenerek güvenli bir şekilde saklanır.
+- Testler: Pest test framework’ü kullanılarak testler yazılmıştır.
+- REST API: Not işlemleri için REST API kullanımı sağlanmıştır.
+- Middleware: Kullanıcı rollerine göre rotalara erişim kontrolü yapılır.
+- Hata Yönetimi: Tanımlı olmayan rotalar için 404 hata sayfası gösterilir.
+- Oturum Yönetimi: Kullanıcı oturumları PHP oturumları ile yönetilir.
+- Temiz Kod: PHP standartlarına uygun, okunabilir ve düzenli bir kod yapısı.
+- MVC: Model-View-Controller mimarisi ile kodun ayrı katmanlarda tutulması.
+- Composer: PHP bağımlılıklarının yönetimi için Composer kullanılır.
+- PHP 7.4: PHP 7.4 ve üzeri sürümler ile uyumlu bir şekilde geliştirilmiştir.
+- Modern PHP: Güncel PHP geliştirme teknikleri ve standartları kullanılarak geliştirilmiştir.
+
+
 ## Kurulum
 
 Projeyi kendi bilgisayarınızda çalıştırmak için aşağıdaki adımları takip edebilirsiniz.
 
 ### Gereksinimler
 
-- PHP 7.4 veya üzeri 
-- MySQL veritabanı 
-- Composer
-- Pest test framework’ü
+- [PHP](https://www.php.net/) 7.4 veya üzeri
+- [Mysql](https://www.mysql.com/) veritabanı
+- [Mysql Workbench](https://www.mysql.com/products/workbench/) gibi bir veritabanı yönetim aracı
+- [Composer](https://getcomposer.org/) paket yöneticisi
+- [Pest](https://pestphp.com/) test framework’ü
 
 <img src="assets/logos/php.png" width="100" style="margin-right: 20px;"> <img src="assets/logos/composer.png" width="70" style="margin-right: 20px;"> <img src="assets/logos/mysql.png" width="100" style="margin-right: 20px;"> <img src="assets/logos/pest.png" width="130" style="margin-right: 20px;">
 
@@ -128,7 +189,7 @@ Not: ON DELETE CASCADE ifadesi, bir kullanıcı silindiğinde o kullanıcıya ai
 
 ### Adım 5: Veritabanı Bağlantı Ayarlarını Yapın
 `config.php` dosyasını açarak aşağıdaki bağlantı bilgilerini güncelleyin:
-```bash
+```php
     'database' => [
         'host' => 'localhost',
         'port' => '3306',
