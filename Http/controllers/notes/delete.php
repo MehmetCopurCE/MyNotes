@@ -2,7 +2,7 @@
 
 use Core\Database;
 
-$currentUserId = 1;
+$currentUserId = $_SESSION['user']['id'];
 
 $config = require base_path("config.php");
 $db = new Database($config['database']);
