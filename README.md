@@ -3,6 +3,8 @@
 
 **MyNotes** is a simple and functional note-taking application developed with `PHP`. This project was created to learn PHP backend development and gain experience with `REST API` usage. Users can easily add, edit, delete, and list notes through this application. A modern PHP development approach is adopted using the Composer package management system and the Pest framework for testing.
 
+https://github.com/user-attachments/assets/9a4383f9-7a7f-4b4e-99ac-2c8fb492166e
+
 ## Technologies and Tools Used
 - **PHP**: Backend development language
 - **Composer**: Dependency management for PHP
