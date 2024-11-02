@@ -18,16 +18,50 @@
 - **MySQL**: Veritabanı yönetim sistemi
 - **REST API**: Uygulama içi not işlemleri için kullanılan API yapısı.
 
+
+## Dosya Yapısı
+
+```
+MyNotes
+├── assets
+│   ├── images
+│   └── logos
+├── Core
+│   ├── Middleware
+│   ├── Router.php
+│   └── Validator.php
+│   └── Database.php
+├── Http
+│   ├── Controllers
+│   ├── forms
+├── public
+│   └── index.php
+├── tests
+│   ├── Feature
+│   └── Unit
+├── vendor
+├── views
+├── .gitignore
+├── bootstrap.php
+├── composer.json
+├── composer.lock
+├── config.php
+├── README.md
+└── routes.php
+```
+
 ## Kurulum
 
 Projeyi kendi bilgisayarınızda çalıştırmak için aşağıdaki adımları takip edebilirsiniz.
 
 ### Gereksinimler
 
-- PHP 7.4 veya üzeri <br> <img src="assets/logos/php.png" width="80">
-- MySQL veritabanı <br> <img src="assets/logos/mysql.png" width="100">
-- Composer <br> <img src="assets/logos/composer.png" width="100">
+- PHP 7.4 veya üzeri 
+- MySQL veritabanı 
+- Composer
+- Pest test framework’ü
 
+<img src="assets/logos/php.png" width="100" style="margin-right: 20px;"> <img src="assets/logos/composer.png" width="70" style="margin-right: 20px;"> <img src="assets/logos/mysql.png" width="100" style="margin-right: 20px;"> <img src="assets/logos/pest.png" width="130" style="margin-right: 20px;">
 
 ### Adım 1: Depoyu klonlayın
 
@@ -37,13 +71,30 @@ cd MyNotes
 ```
 
 ### Adım 2: Composer ile bağımlılıkları yükleyin
-Composer ile gerekli bağımlılıkları yüklemek için aşağıdaki komutu çalıştırın:
+Eğer Composer sisteminizde kurulu değilse, aşağıdaki komutları kullanarak Composer’ı yükleyin:
+
+```bash
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php -r "if (hash_file('sha384', 'composer-setup.php') === 'dac665fdc30fdd8ec78b38b9800061b4150413ff2e3b6f88543c636f7cd84f6db9189d43a81e5503cda447da73c7e5b6') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+php composer-setup.php
+php -r "unlink('composer-setup.php');"
+```
+
+Kurulum tamamlandıktan sonra, proje bağımlılıklarını yüklemek için şu komutu çalıştırın:
 
 ```bash
 composer install
 ```
 
-### Adım 3: Veritabanı Kurulumu
+### Adım 3: Pest test framework’ünü yükleyin
+Pest test framework’ü yüklemek için aşağıdaki komutu çalıştırın:
+
+```bash
+composer remove phpunit/phpunit
+composer require pestphp/pest --dev --with-all-dependencies
+```
+
+### Adım 4: Veritabanı Kurulumu
 Bu proje Laravel veya başka bir framework kullanmadan saf PHP ile geliştirilmiştir. Bu yüzden veritabanı tablolarını otomatik olarak oluşturmak için bir migrate komutu bulunmamaktadır. Tabloları oluşturmak için aşağıdaki SQL komutlarını kullanabilirsiniz.
 
 #### 1) Veritabanı oluşturun
@@ -75,9 +126,9 @@ CREATE TABLE notes (
 ```
 Not: ON DELETE CASCADE ifadesi, bir kullanıcı silindiğinde o kullanıcıya ait tüm notların da otomatik olarak silinmesini sağlar.
 
-### Adım 4: Veritabanı Bağlantı Ayarlarını Yapın
+### Adım 5: Veritabanı Bağlantı Ayarlarını Yapın
+`config.php` dosyasını açarak aşağıdaki bağlantı bilgilerini güncelleyin:
 ```bash
-// config.php
     'database' => [
         'host' => 'localhost',
         'port' => '3306',
@@ -87,10 +138,10 @@ Not: ON DELETE CASCADE ifadesi, bir kullanıcı silindiğinde o kullanıcıya ai
     ]
 ```
 
-### Adım 5: Sunucuyu Başlatın
+### Adım 6: Sunucuyu Başlatın
 ```bash
 php -S localhost:8000 -t public
 ```
 
-### Adım 6: Uygulamayı Kullanın
+### Adım 7: Uygulamayı Kullanın
 Tarayıcınızda http://localhost:8000 adresine giderek uygulamayı kullanmaya başlayabilirsiniz.
