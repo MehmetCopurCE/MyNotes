@@ -1,19 +1,18 @@
 # MyNotes
 <img src="assets/logos/mynotes.png" width="200"> 
 
-**MyNotes**, PHP ile geliştirilmiş, basit ve işlevsel bir not alma uygulamasıdır. Bu proje, PHP arka uç geliştirme sürecini öğrenmek ve REST API kullanımı deneyimini kazanmak amacıyla oluşturulmuştur. Kullanıcılar bu uygulama sayesinde not ekleme, düzenleme, silme ve listeleme işlemlerini kolayca gerçekleştirebilirler. Composer paket yönetim sistemi ve testler için Pest framework’ü kullanılarak modern bir PHP geliştirme yaklaşımı benimsenmiştir.
+**MyNotes** is a simple and functional note-taking application developed with `PHP`. This project was created to learn PHP backend development and gain experience with `REST API` usage. Users can easily add, edit, delete, and list notes through this application. A modern PHP development approach is adopted using the Composer package management system and the Pest framework for testing.
 
+## Technologies and Tools Used
+- **PHP**: Backend development language
+- **Composer**: Dependency management for PHP
+- **Pest**: Test framework for PHP applications
+- **MySQL**: Database management system
+- **REST API**: API structure used for note operations within the application.
+- **HTML, CSS, JavaScript**: Frontend development languages
+- **Bootstrap**: Frontend framework for designing responsive websites
 
-## Kullanılan Teknolojiler ve Araçlar
-
-- **PHP**: Backend geliştirme dili
-- **Composer**: PHP için bağımlılık yönetimi
-- **Pest**: PHP uygulamaları için test framework'ü
-- **MySQL**: Veritabanı yönetim sistemi
-- **REST API**: Uygulama içi not işlemleri için kullanılan API yapısı.
-
-
-## Dosya Yapısı
+## Project Structure
 
 ```
 MyNotes
@@ -44,15 +43,15 @@ MyNotes
 └── routes.php
 ```
 
-## Router Yapısı
-Bu proje, HTTP isteklerini uygun kontrolörlere yönlendirmek için bir `Router` sınıfı kullanmaktadır. Bu sınıf, rotaların tanımlanması ve işlenmesi için gerekli metodları içermektedir.
+## Router Structure
+This project uses a `Router` class to direct HTTP requests to the appropriate controllers. This class includes methods necessary for defining and processing routes.
 
 ### **Router.php**
-`Router.php` dosyası, yönlendirme işlevselliğini sağlayan sınıfı içermektedir. İşte temel işlevleri:
-- **Yönlendirme Tanımlama:** `add`, `get`, `post`, `put`, `patch`, `delete` metodları ile rotaları tanımlayabilirsiniz.
-- **Middleware Yönetimi:** Rotaya belirli bir middleware eklemek için `only` metodunu kullanabilirsiniz.
-- **İstek Yönlendirme:** `route` metodu, belirli bir URI ve HTTP yöntemine göre kontrolörü çağırır.
-- **Hata Yönetimi:** Tanımlı olmayan rotalar için `abort` metodu ile 404 hata sayfası gösterilir.
+The `Router.php` file contains the class that provides routing functionality. Here are its main functions:
+- **Route Definition**: You can define routes using the `add`, `get`, `post`, `put`, `patch`, and `delete` methods.
+- **Middleware Management**: You can add a specific middleware to a route using the `only` method.
+- **Request Routing**: The `route` method calls the controller based on a specific URI and HTTP method.
+- **Error Handling**: The `abort` method displays a 404 error page for undefined routes.
 
 ```php
 <?php
@@ -66,73 +65,70 @@ class Router {
 }
 ```
 
-### **Rotalar**
-Rotalar, `routes.php` dosyasında tanımlanır ve her bir rota, hangi HTTP metoduyla hangi kontrolörün çağrılacağını belirler. Aşağıda tanımlı bazı rotalar bulunmaktadır:
+### **Routes**
+Routes are defined in the `routes.php` file, and each route specifies which controller will be called with which HTTP method. Below are some example routes:
 
 ```php
-$router->get('/', 'index.php');                          // Anasayfa
-$router->get('/about', 'about.php');                     // Hakkında sayfası
-$router->get('/notes', 'notes/index.php')->only('auth'); // Notlar sayfası
-$router->get('/notes/create', 'notes/create.php')->only('auth'); // Not oluşturma sayfası
-$router->post('/notes/create', 'notes/create.php')->only('auth'); // Yeni not ekler
-$router->get('/note', 'notes/show.php')->only('auth');   // Belirli bir notu gösterir
-$router->patch('/note', 'notes/update.php')->only('auth'); // Belirli bir notu günceller
-$router->delete('/note/delete', 'notes/delete.php')->only('auth'); // Belirli bir notu siler
-$router->get('/contact', 'contact.php');                  // İletişim sayfası
-$router->get('/login', 'session/create.php')->only('guest'); // Giriş sayfası
-$router->post('/login', 'session/store.php')->only('guest'); // Giriş işlemi
-$router->delete('/logout', 'session/destroy.php')->only('auth'); // Çıkış işlemi
+$router->get('/', 'index.php');                          // Home page
+$router->get('/about', 'about.php');                     // About page
+$router->get('/notes', 'notes/index.php')->only('auth');  // Notes page
+$router->get('/notes/create', 'notes/create.php')->only('auth'); // Note creation page
+$router->post('/notes/create', 'notes/create.php')->only('auth'); // Add a new note
+$router->get('/note', 'notes/show.php')->only('auth');    // Show a specific note
+$router->patch('/note', 'notes/update.php')->only('auth'); // Update a specific note
+$router->delete('/note/delete', 'notes/delete.php')->only('auth'); // Delete a specific note
+$router->get('/contact', 'contact.php');                  // Contact page
+$router->get('/login', 'session/create.php')->only('guest'); // Login page
+$router->post('/login', 'session/store.php')->only('guest'); // Login process
+$router->delete('/logout', 'session/destroy.php')->only('auth'); // Logout process
 ```
 
-### Açıklamalar:
-- Middleware Kullanımı: `only` metodu, belirli rotaların sadece belirli kullanıcı rolleri (örneğin, `auth` veya `guest`) tarafından erişilmesini sağlar.
-- HTTP Metodları: Farklı HTTP metodları (`GET`, `POST`, `PUT`, `DELETE`, `PATCH`) ile CRUD (Create, Read, Update, Delete) işlemleri yapılır.
-
-Örnek Kullanım
-Kullanıcılar, `/notes` rotasına erişmek istediklerinde, `auth` middleware'i tarafından doğrulama yapılacaktır. Eğer kullanıcı oturum açmışsa, notlar listelenecektir. Aksi halde, kullanıcıya uygun bir hata mesajı gösterilecektir.
-
-## Ek Özellikler
-
-- Kullanıcı Kayıt Olma ve Giriş Yapma: Kullanıcılar hesap oluşturabilir ve giriş yapabilir.
-- Not Yönetimi: Not ekleme, düzenleme, silme ve listeleme işlemleri REST API ile yapılır.
-- Basit ve Fonksiyonel Arayüz: Kullanıcı dostu arayüz ile basit bir kullanım sunar.
-- MySQL Veritabanı: Notlar MySQL veritabanında saklanır.
-- Güvenlik: Kullanıcı şifreleri hashlenerek güvenli bir şekilde saklanır.
-- Testler: Pest test framework’ü kullanılarak testler yazılmıştır.
-- REST API: Not işlemleri için REST API kullanımı sağlanmıştır.
-- Middleware: Kullanıcı rollerine göre rotalara erişim kontrolü yapılır.
-- Hata Yönetimi: Tanımlı olmayan rotalar için 404 hata sayfası gösterilir.
-- Oturum Yönetimi: Kullanıcı oturumları PHP oturumları ile yönetilir.
-- Temiz Kod: PHP standartlarına uygun, okunabilir ve düzenli bir kod yapısı.
-- MVC: Model-View-Controller mimarisi ile kodun ayrı katmanlarda tutulması.
-- Composer: PHP bağımlılıklarının yönetimi için Composer kullanılır.
-- PHP 7.4: PHP 7.4 ve üzeri sürümler ile uyumlu bir şekilde geliştirilmiştir.
-- Modern PHP: Güncel PHP geliştirme teknikleri ve standartları kullanılarak geliştirilmiştir.
+### Explanations:
+- **Route Definition**: The `only` method allows only specific user roles (e.g., `auth` or `guest`) to access certain routes.
+- **HTTP Methods**: Different HTTP methods (`GET`, `POST`, `PUT`, `DELETE`, `PATCH`) are used for CRUD (Create, Read, Update, Delete) operations.
 
 
-## Kurulum
+**Example Usage:** When users try to access the `/notes` route, they will be authenticated by the `auth` middleware. If the user is logged in, the notes will be listed. Otherwise, an appropriate error message will be displayed.
 
-Projeyi kendi bilgisayarınızda çalıştırmak için aşağıdaki adımları takip edebilirsiniz.
+## Additional Features
+- **User Registration and Login**: Users can create an account and log in.
+- **Note Management**: Note addition, editing, deletion, and listing operations are performed using a REST API.
+- **Simple and Functional Interface**: A user-friendly interface provides easy navigation.
+- **MySQL Database**: Notes are stored in a MySQL database.
+- **Security**: User passwords are hashed for secure storage.
+- **Tests**: Tests are written using the Pest test framework.
+- **REST API**: A REST API is used for note operations.
+- **Middleware**: Access control is implemented for routes based on user roles.
+- **Error Handling**: A 404 error page is displayed for undefined routes.
+- **Session Management**: User sessions are managed using PHP sessions.
+- **Clean Code**: The codebase follows PHP standards and is readable and well-organized.
+- **MVC**: The Model-View-Controller architecture separates code into different layers.
+- **Composer**: Composer is used for managing PHP dependencies.
+- **PHP 7.4**: Developed to be compatible with PHP 7.4 and higher versions.
+- **Modern PHP**: Developed using current PHP development techniques and standards.
 
-### Gereksinimler
+## Installation and Usage
+To run the project on your local machine, you can follow the steps below.
 
-- [PHP](https://www.php.net/) 7.4 veya üzeri
-- [Mysql](https://www.mysql.com/) veritabanı
-- [Composer](https://getcomposer.org/) paket yöneticisi 
-- [Mysql Workbench](https://www.mysql.com/products/workbench/) gibi bir veritabanı yönetim aracı
-- [Pest](https://pestphp.com/) test framework’ü
+### Requirements
+- [PHP](https://www.php.net/) 7.4 or higher
+- [Mysql](https://www.mysql.com/) database
+- [Composer](https://getcomposer.org/) package manager
+- Database management tool such as [Mysql Workbench](https://www.mysql.com/products/workbench/)
+- [Pest](https://pestphp.com/) test framework
+- Web server (e.g., Apache, Nginx) or PHP's built-in server
 
 <img src="assets/logos/php.png" width="100" style="margin-right: 20px;"><img src="assets/logos/mysql.png" width="140" style="margin-right: 20px; margin-bottom: 10px;"> <img src="assets/logos/composer.png" width="80" style="margin-right: 20px;"> <img src="assets/logos/workbench.png" width="80" style="margin-right: 20px;">  <img src="assets/logos/pest.png" width="130" style="margin-right: 20px;">
 
-### Adım 1: Depoyu klonlayın
+### Step 1: Clone the Repository
 
 ```bash
 git clone https://github.com/MehmetCopurCE/MyNotes.git
 cd MyNotes
 ```
 
-### Adım 2: Composer ile bağımlılıkları yükleyin
-Eğer Composer sisteminizde kurulu değilse, aşağıdaki komutları kullanarak Composer’ı yükleyin:
+### Step 2: Install Composer Dependencies
+If Composer is not installed on your system, you can install it using the following commands:
 
 ```bash
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -141,33 +137,32 @@ php composer-setup.php
 php -r "unlink('composer-setup.php');"
 ```
 
-Kurulum tamamlandıktan sonra, proje bağımlılıklarını yüklemek için şu komutu çalıştırın:
+After installation is complete, run the following command to install project dependencies:
 
 ```bash
 composer install
 ```
 
-### Adım 3: Pest test framework’ünü yükleyin
-Pest test framework’ü yüklemek için aşağıdaki komutu çalıştırın:
+### Step 3: Install Pest Test Framework
+To install the Pest test framework, run the following command:
 
 ```bash
 composer remove phpunit/phpunit
 composer require pestphp/pest --dev --with-all-dependencies
 ```
 
-### Adım 4: Veritabanı Kurulumu
-Bu proje Laravel veya başka bir framework kullanmadan saf PHP ile geliştirilmiştir. Bu yüzden veritabanı tablolarını otomatik olarak oluşturmak için bir migrate komutu bulunmamaktadır. Tabloları oluşturmak için aşağıdaki SQL komutlarını kullanabilirsiniz.
+### Step 4: Create Database Tables
+This project is developed using pure PHP without Laravel or another framework. Therefore, there is no migrate command to automatically create database tables. You can use the following SQL commands to create tables:
 
-#### 1) Veritabanı oluşturun
-Öncelikle bir veritabanı oluşturun. Bu örnekte veritabanı adı PhpDemo olarak belirlenmiştir:
-
+#### 1) Create a Database
+First, create a database. In this example, the database name is set to `PhpDemo`:
 ```sql
 CREATE DATABASE PhpDemo;
 USE PhpDemo;
 ```
 
-#### 2) Tabloları oluşturun
-Aşağıdaki SQL komutlarını kullanarak users ve notes tablolarını oluşturabilirsiniz:
+#### 2) Create Tables
+You can create the `users` and `notes` tables using the following SQL commands:
 
 ```sql
 CREATE TABLE users (
@@ -185,10 +180,12 @@ CREATE TABLE notes (
                        FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 ```
-Not: ON DELETE CASCADE ifadesi, bir kullanıcı silindiğinde o kullanıcıya ait tüm notların da otomatik olarak silinmesini sağlar.
 
-### Adım 5: Veritabanı Bağlantı Ayarlarını Yapın
-`config.php` dosyasını açarak aşağıdaki bağlantı bilgilerini güncelleyin:
+Note: The `ON DELETE CASCADE` clause ensures that all notes belonging to a user are automatically deleted when that user is deleted.
+
+### Step 5: Update Database Connection
+Open the `config.php` file and update the connection details as follows:
+
 ```php
     'database' => [
         'host' => 'localhost',
@@ -199,29 +196,29 @@ Not: ON DELETE CASCADE ifadesi, bir kullanıcı silindiğinde o kullanıcıya ai
     ]
 ```
 
-### Adım 6: Sunucuyu Başlatın
-Uygulamayı çalıştırmak için PHP’nin yerleşik sunucusunu kullanabilirsiniz. Sunucuyu başlatmak için aşağıdaki adımları izleyin:
+### Step 6: Run the Application
+You can use PHP's built-in server to run the application. To start the server, follow the steps below:
 
-#### 1) Yerleşik Sunucuyu Kullanma
-Windows ve macOS için ortak yöntem: <br>
-Aşağıdaki komutu çalıştırarak PHP’nin yerleşik sunucusunu başlatın:
+#### 1) PHP Built-in Server
+Common method for Windows and macOS: <br> Run the following command to start PHP's built-in server:
 
 ```bash
 php -S localhost:8000 -t public
 ```
-Bu komut, `public` dizinini kök dizin olarak ayarlayarak PHP'nin yerleşik sunucusunu başlatır. Tarayıcınızda `http://localhost:8000` adresine giderek uygulamanızı görüntüleyebilirsiniz.
 
-#### 2) Diğer Sunucu Yöntemleri
-- **XAMPP veya WAMP (Windows)**:
-  - [XAMPP](https://www.apachefriends.org/tr/index.html) veya [WAMP](https://www.wampserver.com/en/), PHP uygulamalarınızı çalıştırmak için popüler bir seçenek. Bu araçlar, Apache sunucusunu içerdikleri için daha fazla yapılandırma seçeneği sunar.
-  - XAMPP veya WAMP yükledikten sonra, projenizi `htdocs` dizinine kopyalayın ve tarayıcınızda `http://localhost/MyNotes/public` adresine giderek uygulamayı çalıştırabilirsiniz.
-  
+This command starts the PHP built-in server with the `public` directory as the root directory. You can view your application by going to `http://localhost:8000` in your browser.
+
+#### 2) Other Web Servers
+- **XAMPP or WAMP (Windows)**:
+    - [XAMPP](https://www.apachefriends.org/index.html) or [WAMP](https://www.wampserver.com/en/), popular options for running PHP applications. These tools include the Apache server, providing more configuration options.
+    - After installing XAMPP or WAMP, copy your project to the `htdocs` directory and run the application by going to `http://localhost/MyNotes/public` in your browser.
+
 - **MAMP (Mac)**:
-  - [MAMP](https://www.mamp.info/en/) macOS için popüler bir Apache, MySQL ve PHP paketidir. MAMP yükledikten sonra, projenizi `htdocs` dizinine kopyalayın ve tarayıcınızda `http://localhost:8888/MyNotes/public` adresine giderek uygulamayı çalıştırabilirsiniz.
-  - MAMP’ın varsayılan portu 8888’dir. Eğer portu değiştirdiyseniz, port numarasını değiştirerek tarayıcınızda uygulamayı çalıştırabilirsiniz.
-  - Örneğin, port numarası 8889 ise, `http://localhost:8889/MyNotes/public` adresine giderek uygulamayı çalıştırabilirsiniz.
-  - MAMP’ın MySQL veritabanı bağlantı bilgilerini `config.php` dosyasında güncelleyin.
-  - `config.php` dosyasında MySQL bağlantı bilgilerini güncellemek için aşağıdaki satırları düzenleyin:
+  - [MAMP](https://www.mamp.info/en/) is a popular Apache, MySQL, and PHP package for macOS. After installing MAMP, copy your project to the `htdocs` directory and run the application by going to `http://localhost:8888/MyNotes/public` in your browser.
+  - The default port for MAMP is 8888. If you have changed the port, you can run the application in your browser by changing the port number.
+  - For example, if the port number is 8889, you can run the application by going to `http://localhost:8889/MyNotes/public` in your browser.
+  - Update the MySQL database connection details in the `config.php` file.
+  - To update the MySQL connection details in the `config.php` file, edit the following lines:
   - ```php
     'database' => [
         'host' => 'localhost',
@@ -231,6 +228,35 @@ Bu komut, `public` dizinini kök dizin olarak ayarlayarak PHP'nin yerleşik sunu
         'password' => 'your_password'
     ]
     ```
+    - The default username and password for MAMP are `root` and `root`, respectively.
     
-### Adım 7: Uygulamayı Kullanın
-Tarayıcınızda http://localhost:8000 adresine giderek uygulamayı kullanmaya başlayabilirsiniz.
+### Step 7: Run Tests
+To run the tests, use the following command:
+
+```bash
+./vendor/bin/pest
+```
+
+The Pest test framework will run the tests and display the results.
+
+
+## Resources
+
+I followed the following training course while developing this project:
+
+- **Course Name**: [PHP For Beginners - Complete Laracasts Course](https://www.youtube.com/watch?v=fw5ObX8P6as&list=WL&ab_channel=Laracasts)
+- **Instructor**: Jeffrey Way
+- **Platform**: Laracasts
+- **Duration**: 6 hours
+- **Description**: This course covers PHP basics, including syntax, functions, classes, and object-oriented programming. It also covers more advanced topics such as Composer, testing, and Laravel.
+- **Topics**: PHP basics, Composer, testing, Laravel, object-oriented programming, classes, functions, and more.
+
+
+## Contact & Feedback
+
+Feel free to share your ideas or suggestions about the project. You can reach me through the following channels:
+
+<a href="https://www.linkedin.com/in/mehmet-copur/"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0bGEl9v47XieEtHyj0TqTr1tOXJmib-KHtw&s" height = "50"/></a> <a href="mailto:mhmtcpr120@gmail.com?"><img src="https://img.shields.io/badge/gmail-%23DD0031.svg?&style=for-the-badge&logo=gmail&logoColor=white" height = "50"/></a> <a href="https://medium.com/@mhmtcpr120/nette-dependency-injection-transient-scoped-ve-singleton-ya%C5%9Fam-d%C3%B6ng%C3%BCleri-aa9aa4f38193"><img src="https://miro.medium.com/v2/resize:fit:1400/1*RB1rxSK_TBmcC5D2PN30JA.png" height = "50"/></a>
+
+
+Any feedback you give me is valuable and will help me make the project better.
