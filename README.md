@@ -1,15 +1,16 @@
 # MyNotes
 
-**MyNotes**, PHP ile geliştirilmiş basit bir not alma uygulamasıdır. Bu proje, PHP'nin arka plan işleyişini öğrenmek ve **REST API** ile çalışmayı deneyimlemek amacıyla oluşturulmuştur. Uygulama, kullanıcıların not ekleyebilmesi, görüntüleyebilmesi, düzenleyebilmesi ve silebilmesine olanak tanır. **Composer** ile paket yönetimi yapılmış ve testler için **Pest** framework'ü kullanılmıştır.
+**MyNotes**, PHP ile geliştirilmiş, basit ve işlevsel bir not alma uygulamasıdır. Bu proje, PHP arka uç geliştirme sürecini öğrenmek ve REST API kullanımı deneyimini kazanmak amacıyla oluşturulmuştur. Kullanıcılar bu uygulama sayesinde not ekleme, düzenleme, silme ve listeleme işlemlerini kolayca gerçekleştirebilirler. Composer paket yönetim sistemi ve testler için Pest framework’ü kullanılarak modern bir PHP geliştirme yaklaşımı benimsenmiştir.
+
+<img src="assets/logos/php.png" width="200"> <img src="assets/logos/mysql.png" width="200">
+
 
 ## Özellikler
 
-- Kullanıcı Kayıt Olma ve Giriş Yapma
-- Not Ekleme, Düzenleme ve Silme
-- Notları Listeleme
-- REST API ile Not Yönetimi
-- Basit ve Fonksiyonel Arayüz
-- MySQL Veritabanı Desteği
+- Kullanıcı Kayıt Olma ve Giriş Yapma: Kullanıcılar hesap oluşturabilir ve giriş yapabilir. 
+- Not Yönetimi: Not ekleme, düzenleme, silme ve listeleme işlemleri REST API ile yapılır. 
+- Basit ve Fonksiyonel Arayüz: Kullanıcı dostu arayüz ile basit bir kullanım sunar. 
+- MySQL Veritabanı: Notlar MySQL veritabanında saklanır.
 
 ## Kullanılan Teknolojiler ve Araçlar
 
@@ -17,7 +18,7 @@
 - **Composer**: PHP için bağımlılık yönetimi
 - **Pest**: PHP uygulamaları için test framework'ü
 - **MySQL**: Veritabanı yönetim sistemi
-- **REST API**: Not işlemleri için kullanılan API yapısı
+- **REST API**: Uygulama içi not işlemleri için kullanılan API yapısı.
 
 ## Kurulum
 
@@ -42,8 +43,39 @@ cd mynotes
 composer install
 ```
 
-### Adım 3: Veritabanı ayarlarını yapın
-**config.php** dosyasındaki MySQL ayarlarını kendi yerel veritabanınıza göre düzenleyin.
+### Adım 3: Veritabanı Kurulumu
+Bu proje Laravel veya başka bir framework kullanmadan saf PHP ile geliştirilmiştir. Bu yüzden veritabanı tablolarını otomatik olarak oluşturmak için bir migrate komutu bulunmamaktadır. Tabloları oluşturmak için aşağıdaki SQL komutlarını kullanabilirsiniz.
+
+#### 1) Veritabanı oluşturun
+Öncelikle bir veritabanı oluşturun. Bu örnekte veritabanı adı PhpDemo olarak belirlenmiştir:
+
+```sql
+CREATE DATABASE PhpDemo;
+USE PhpDemo;
+```
+
+#### 2) Tabloları oluşturun
+Aşağıdaki SQL komutlarını kullanarak users ve notes tablolarını oluşturabilirsiniz:
+
+```sql
+CREATE TABLE users (
+                       user_id INT AUTO_INCREMENT PRIMARY KEY,
+                       email VARCHAR(100) NOT NULL UNIQUE,
+                       password VARCHAR(255) NOT NULL,
+                       created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE notes (
+                       id INT AUTO_INCREMENT PRIMARY KEY,
+                       body TEXT NOT NULL,
+                       user_id INT,
+                       created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                       FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+```
+Not: ON DELETE CASCADE ifadesi, bir kullanıcı silindiğinde o kullanıcıya ait tüm notların da otomatik olarak silinmesini sağlar.
+
+### Adım 4: Veritabanı Bağlantı Ayarlarını Yapın
 ```bash
 // config.php
     'database' => [
@@ -51,14 +83,14 @@ composer install
         'port' => '3306',
         'dbname' => 'PhpDemo',
         'user' => 'root',
-        'password' => 'MCopur123'
+        'password' => 'your_password'
     ]
 ```
 
+### Adım 5: Sunucuyu Başlatın
+```bash
+php -S localhost:8000 -t public
+```
 
-### Adım 4: Veritabanını oluşturun
-    
-    ```bash
-    php artisan migrate
-    ```
-
+### Adım 6: Uygulamayı Kullanın
+Tarayıcınızda http://localhost:8000 adresine giderek uygulamayı kullanmaya başlayabilirsiniz.
