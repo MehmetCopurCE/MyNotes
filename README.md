@@ -1,9 +1,7 @@
 # MyNotes
+<img src="assets/logos/mynotes.png" width="200"> 
 
 **MyNotes**, PHP ile geliştirilmiş, basit ve işlevsel bir not alma uygulamasıdır. Bu proje, PHP arka uç geliştirme sürecini öğrenmek ve REST API kullanımı deneyimini kazanmak amacıyla oluşturulmuştur. Kullanıcılar bu uygulama sayesinde not ekleme, düzenleme, silme ve listeleme işlemlerini kolayca gerçekleştirebilirler. Composer paket yönetim sistemi ve testler için Pest framework’ü kullanılarak modern bir PHP geliştirme yaklaşımı benimsenmiştir.
-
-<img src="assets/logos/php.png" width="200"> <img src="assets/logos/mysql.png" width="200">
-
 
 ## Özellikler
 
