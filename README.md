@@ -5,9 +5,9 @@
 
 ## Özellikler
 
-- Kullanıcı Kayıt Olma ve Giriş Yapma: Kullanıcılar hesap oluşturabilir ve giriş yapabilir. 
-- Not Yönetimi: Not ekleme, düzenleme, silme ve listeleme işlemleri REST API ile yapılır. 
-- Basit ve Fonksiyonel Arayüz: Kullanıcı dostu arayüz ile basit bir kullanım sunar. 
+- Kullanıcı Kayıt Olma ve Giriş Yapma: Kullanıcılar hesap oluşturabilir ve giriş yapabilir.
+- Not Yönetimi: Not ekleme, düzenleme, silme ve listeleme işlemleri REST API ile yapılır.
+- Basit ve Fonksiyonel Arayüz: Kullanıcı dostu arayüz ile basit bir kullanım sunar.
 - MySQL Veritabanı: Notlar MySQL veritabanında saklanır.
 
 ## Kullanılan Teknolojiler ve Araçlar
@@ -24,18 +24,20 @@ Projeyi kendi bilgisayarınızda çalıştırmak için aşağıdaki adımları t
 
 ### Gereksinimler
 
-- PHP 7.4 veya üzeri
-- MySQL veritabanı
-- Composer
+- PHP 7.4 veya üzeri <br> <img src="assets/logos/php.png" width="80">
+- MySQL veritabanı <br> <img src="assets/logos/mysql.png" width="100">
+- Composer <br> <img src="assets/logos/composer.png" width="100">
+
 
 ### Adım 1: Depoyu klonlayın
 
 ```bash
-git clone https://github.com/kullanici_adiniz/mynotes.git
-cd mynotes
+git clone https://github.com/MehmetCopurCE/MyNotes.git
+cd MyNotes
 ```
 
 ### Adım 2: Composer ile bağımlılıkları yükleyin
+Composer ile gerekli bağımlılıkları yüklemek için aşağıdaki komutu çalıştırın:
 
 ```bash
 composer install
