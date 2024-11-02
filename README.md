@@ -118,11 +118,11 @@ Projeyi kendi bilgisayarınızda çalıştırmak için aşağıdaki adımları t
 
 - [PHP](https://www.php.net/) 7.4 veya üzeri
 - [Mysql](https://www.mysql.com/) veritabanı
+- [Composer](https://getcomposer.org/) paket yöneticisi 
 - [Mysql Workbench](https://www.mysql.com/products/workbench/) gibi bir veritabanı yönetim aracı
-- [Composer](https://getcomposer.org/) paket yöneticisi
 - [Pest](https://pestphp.com/) test framework’ü
 
-<img src="assets/logos/php.png" width="100" style="margin-right: 20px;"> <img src="assets/logos/composer.png" width="70" style="margin-right: 20px;"> <img src="assets/logos/mysql.png" width="100" style="margin-right: 20px;"> <img src="assets/logos/pest.png" width="130" style="margin-right: 20px;">
+<img src="assets/logos/php.png" width="100" style="margin-right: 20px;"><img src="assets/logos/mysql.png" width="140" style="margin-right: 20px; margin-bottom: 10px;"> <img src="assets/logos/composer.png" width="80" style="margin-right: 20px;"> <img src="assets/logos/workbench.png" width="80" style="margin-right: 20px;">  <img src="assets/logos/pest.png" width="130" style="margin-right: 20px;">
 
 ### Adım 1: Depoyu klonlayın
 
@@ -194,15 +194,43 @@ Not: ON DELETE CASCADE ifadesi, bir kullanıcı silindiğinde o kullanıcıya ai
         'host' => 'localhost',
         'port' => '3306',
         'dbname' => 'PhpDemo',
-        'user' => 'root',
+        'user' => 'your_username',
         'password' => 'your_password'
     ]
 ```
 
 ### Adım 6: Sunucuyu Başlatın
+Uygulamayı çalıştırmak için PHP’nin yerleşik sunucusunu kullanabilirsiniz. Sunucuyu başlatmak için aşağıdaki adımları izleyin:
+
+#### 1) Yerleşik Sunucuyu Kullanma
+Windows ve macOS için ortak yöntem: <br>
+Aşağıdaki komutu çalıştırarak PHP’nin yerleşik sunucusunu başlatın:
+
 ```bash
 php -S localhost:8000 -t public
 ```
+Bu komut, `public` dizinini kök dizin olarak ayarlayarak PHP'nin yerleşik sunucusunu başlatır. Tarayıcınızda `http://localhost:8000` adresine giderek uygulamanızı görüntüleyebilirsiniz.
 
+#### 2) Diğer Sunucu Yöntemleri
+- **XAMPP veya WAMP (Windows)**:
+  - [XAMPP](https://www.apachefriends.org/tr/index.html) veya [WAMP](https://www.wampserver.com/en/), PHP uygulamalarınızı çalıştırmak için popüler bir seçenek. Bu araçlar, Apache sunucusunu içerdikleri için daha fazla yapılandırma seçeneği sunar.
+  - XAMPP veya WAMP yükledikten sonra, projenizi `htdocs` dizinine kopyalayın ve tarayıcınızda `http://localhost/MyNotes/public` adresine giderek uygulamayı çalıştırabilirsiniz.
+  
+- **MAMP (Mac)**:
+  - [MAMP](https://www.mamp.info/en/) macOS için popüler bir Apache, MySQL ve PHP paketidir. MAMP yükledikten sonra, projenizi `htdocs` dizinine kopyalayın ve tarayıcınızda `http://localhost:8888/MyNotes/public` adresine giderek uygulamayı çalıştırabilirsiniz.
+  - MAMP’ın varsayılan portu 8888’dir. Eğer portu değiştirdiyseniz, port numarasını değiştirerek tarayıcınızda uygulamayı çalıştırabilirsiniz.
+  - Örneğin, port numarası 8889 ise, `http://localhost:8889/MyNotes/public` adresine giderek uygulamayı çalıştırabilirsiniz.
+  - MAMP’ın MySQL veritabanı bağlantı bilgilerini `config.php` dosyasında güncelleyin.
+  - `config.php` dosyasında MySQL bağlantı bilgilerini güncellemek için aşağıdaki satırları düzenleyin:
+  - ```php
+    'database' => [
+        'host' => 'localhost',
+        'port' => '8889',
+        'dbname' => 'PhpDemo',
+        'user' => 'your_username',
+        'password' => 'your_password'
+    ]
+    ```
+    
 ### Adım 7: Uygulamayı Kullanın
 Tarayıcınızda http://localhost:8000 adresine giderek uygulamayı kullanmaya başlayabilirsiniz.
